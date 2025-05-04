@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Direction Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 40px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+        }
+        img {
+            max-width: 500px;
+            margin-top: 10px;
+        }
+        .result {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Stock Direction Predictor</h2>
+    <form method="POST">
+        <label>Select up to 5 stocks:</label><br>
+        <select name="stocks" multiple size="10">
+            {% for ticker in tickers %}
+                <option value="{{ ticker.symbol }}">{{ ticker.symbol }} - {{ ticker.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if results %}
+        {% for result in results %}
+            <div class="result">
+                <h3>{{ result.symbol }}</h3>
+                <p><strong>Prediction:</strong> {{ result.prediction }}</p>
+                <p><strong>Reason:</strong> {{ result.reason }}</p>
+                <img src="data:image/png;base64,{{ result.chart }}" alt="Stock Chart">
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
